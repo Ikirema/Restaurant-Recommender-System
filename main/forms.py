@@ -2,12 +2,12 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, HiddenField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Regexp, NoneOf
 from main.models import User
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=50)], render_kw={"placeholder":"Enter Username"})
+    username = StringField('Username', validators=[DataRequired(), Regexp('^[a-z]+$'), NoneOf([" "]), Length(min=2, max=50)], render_kw={"placeholder":"Only lowercase letters with no spaces"})
     email = StringField('Email', validators=[DataRequired(), Email()], render_kw={"placeholder":"email@example.com"})
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=20)], render_kw={"placeholder":"Minimum: 8 characters"})
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')], render_kw={"placeholder":"Re-type Password"})
