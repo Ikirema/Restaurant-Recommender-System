@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Popular Restaurants</h1>
-    <ul>
+    <h1 class="title">Popular Restaurants</h1><br>
+    <ul class="card-img-top restaurant-image">
         {% for item in items.iterrows() %}
         <h2>{{ item[1]['name'] }} </h2>
+        <div>
+            <li><img src="{{url_for('static', filename='profile_pics/images/tortas.jpeg')}}" class="card-img-top restaurant-image" alt="Restaurant 1"></li>
+            
+            <a href="{{ url_for('new_post') }}" class="btn">Review</a><br>
+        </div>
         {% endfor %}
     </ul>
 {% endblock %}
