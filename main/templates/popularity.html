@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Popular Restaurants</h1>
+    <ul>
+        {% for item in items.iterrows() %}
+        <h2>{{ item[1]['name'] }} </h2>
+        {% endfor %}
+    </ul>
+{% endblock %}
