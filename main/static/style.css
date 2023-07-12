@@ -16,7 +16,12 @@ body{
     float: center;
   }
 
-  
+  .input-form {
+    height: 50px;
+
+
+  }
+
   .create {
     margin-left: 380px;
   }
