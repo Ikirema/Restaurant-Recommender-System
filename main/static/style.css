@@ -18,9 +18,14 @@ body{
 
   .input-form {
     height: 50px;
-
-
   }
+
+  .restaurant-image {
+    height: 500px;
+    width: auto;
+    object-fit: cover;
+    margin: 30px;
+}
 
   .create {
     margin-left: 380px;
