@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <section class="hero">
+
+        <div class="swiper hero-slider">
+     
+           <div class="swiper-wrapper">
+     
+              <div class="swiper-slide slide">
+                 <div class="content">
+                    
+                    <span>order online</span>
+                    <h3>Rice Stew</h3>
+                    <a href="{{ url_for('login') }}" class="btn">see menus</a>
+                 </div>
+                 <div class="image">
+                    <img src="static/profile_pics/delicacies/rice stew.jpg" alt="">
+                 </div>
+              </div>
+     
+              <div class="swiper-slide slide">
+                 <div class="content">
+                    <span>order online</span>
+                    <h3>Tasty hamburger</h3>
+                    <a href="{{ url_for('login') }}" class="btn">see menus</a>
+                 </div>
+                 <div class="image">
+                    <img src="static/profile_pics/delicacies/burger-1.png" alt="">
+                 </div>
+              </div>
+     
+              <div class="swiper-slide slide">
+                 <div class="content">
+                    <span>order online</span>
+                    <h3>Chapati Stew</h3>
+                    <a href="{{ url_for('login') }}" class="btn">see menus</a>
+                 </div>
+                 <div class="image">
+                    <img src="static/profile_pics/delicacies/chapati stew.jpg" alt="">
+                 </div>
+              </div>
+     
+           </div>
+     
+           <div class="swiper-pagination"></div>
+     
+        </div>
+     
+     </section>
+
+     <section class="category">
+
+        <h1 class="title">Restaurant Reommendations</h1>
+     
+        <div class="box-container">
+     
+           <a href="{{ url_for('popularity') }}" class="box">
+              <img src="static/profile_pics/images/cat-1.png" alt="">
+              <h3>Popular Restaurants</h3>
+           </a>
+     
+           <a href="#" class="box">
+              <img src="static/profile_pics/images/cat-2.png" alt="">
+              <h3>Nearest to You</h3>
+           </a>
+     
+           <a href="#}" class="box">
+              <img src="static/profile_pics/images/cat-3.png" alt="">
+              <h3>drinks</h3>
+           </a>
+     
+           <a href="{{ url_for('login') }}" class="box">
+              <img src="static/profile_pics/images/cat-4.png" alt="">
+              <h3>desserts</h3>
+           </a>
+     
+        </div>
+     
+     </section>
+
+     <footer class="footer">
+
+        <h1 class="title">Socials</h1>
+
+     <section class="grid">
+
+        <div class="box">
+           <img src="static/profile_pics/images/email-icon.png" alt="">
+           <h3>our email</h3>
+           <a href="iankirema@gmail.com">iankirema@gmail.com</a>
+           <a href="ombenifaraja@gmail.com">ombenifaraja@gmail.com</a>
+        </div>
+  
+        <div class="box">
+           <img src="static/profile_pics/images/clock-icon.png" alt="">
+           <h3>Working hours</h3>
+           <p> 24hrs Services </p>
+        </div>
+  
+        <div class="box">
+           <img src="static/profile_pics/images/map-icon.png" alt="">
+           <h3>our address</h3>
+           <a href="#">Nairobi, Kenya</a>
+        </div>
+  
+        <div class="box">
+           <img src="static/profile_pics/images/phone-icon.png" alt="">
+           <h3>our number</h3>
+           <a href="tel:+254723737728">+254723737728</a>
+        </div>
+  
+     </section>
+
+     <div class="credit">&copy; copyright @ <?= date('Y'); ?> by <span>Mr. Ian Kirema and Sir Ombeni Faraja</span> | all rights reserved!</div>
+
+    </footer>
+
+     
+     <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+<!-- custom js file link  -->
+<script src="js/script.js"></script>
+
+<script>
+
+var swiper = new Swiper(".hero-slider", {
+   loop:true,
+   grabCursor: true,
+   effect: "flip",
+   pagination: {
+      el: ".swiper-pagination",
+      clickable:true,
+   },
+});
+</script>
+
+
+
+{% endblock %}
