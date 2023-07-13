@@ -24,6 +24,11 @@
 ## Dataset
 * The data used in this project: https://www.kaggle.com/datasets/uciml/restaurant-data-with-consumer-ratings
 
+## How to run this project
+* Clone the repository
+* Perform the following pip installs
+`pip install flask`
+
 ## Authors of this project
 Ombeni Faraja, 3rd Year Computer Science Student in Strathmore University.
 Ian Kirema, 3rd Year Computer Science Student in Strathmore University.
