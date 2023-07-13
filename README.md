@@ -27,7 +27,9 @@
 ## How to run this project
 * Clone the repository
 * Perform the following pip installs
-`pip install flask`
+```
+pip install flask
+````
 
 ## Authors of this project
 Ombeni Faraja, 3rd Year Computer Science Student in Strathmore University.
