@@ -1,5 +1,7 @@
 # Restaurant-Recommender-System
 ## Introduction
+This is a semester project built by Ombeni Faraja and Ian Kirema during their third year in Strathmore University in July, 2023.
+
 * Restaurants are very intersting ways where one can spend time, discover new flavours and culture.
 * This recommender system will help people experience new places and flavours.
 * This Notebook contains is using a combination of Collaborative Filtering and Content-based Filtering.
@@ -50,6 +52,6 @@ pip install pandas
 * Run this code in the terminal of the project directory `py run.py` or `pyhton run.py`
 
 ## Authors of this project
-Ombeni Faraja, 3rd Year Computer Science Student in Strathmore University.
+Ombeni Faraja, 3rd Year Computer Science Student in Strathmore University. <br>
 Ian Kirema, 3rd Year Computer Science Student in Strathmore University.
 
