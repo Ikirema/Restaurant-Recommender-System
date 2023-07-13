@@ -3,14 +3,15 @@ import os
 import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, session
-from main import app, db, bcrypt, mail
-from main.forms import RegistrationForm, LoginForm, RequestResetForm, ResetPasswordForm, VerifyEmailForm, UpdateAccountForm, PostForm
+from main import app, db, bcrypt, mail, admin
+from main.forms import RegistrationForm, LoginForm, RequestResetForm, ResetPasswordForm, VerifyEmailForm, UpdateAccountForm, PostForm, AdminForm
 from main.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 import numpy as np
 import pandas as pd
 import csv
+from flask_admin.contrib.sqla import ModelView
 
 
 
@@ -48,7 +49,7 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash('Account Created Succesfully. Kindly Verify your email!', 'success')
+        flash('Account Created Succesfully.Login with your details', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Sign Up', form=form)
 
@@ -268,3 +269,30 @@ if __name__ == '__main__':
         totalRating = item['totalRating']
         avgRating = totalRating / numRatings
         itemDict[itemID] = {'name': name, 'ratings': ratings, 'numRatings': numRatings, 'avgRating': avgRating}
+
+
+
+class Controller(ModelView):
+    def is_accessible(self):
+        if current_user.is_admin == True:
+            return current_user.is_authenticated
+        else:
+            return abort(404)
+    def not_auth(self):
+        return "You are not allowed to view this page"
+    
+admin.add_view(Controller(User, db.session))
+
+@app.route('/admin-signup', methods=['GET', 'POST'])
+def admin_signup():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = AdminForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(email=form.email.data, password=hashed_password, is_admin=True)
+        db.session.add(user)
+        db.session.commit()
+        flash('Account Created Succesfully. Login with your details!', 'success')
+        return redirect(url_for('login'))
+    return render_template('admin-signup.html', title='Sign Up', form=form)

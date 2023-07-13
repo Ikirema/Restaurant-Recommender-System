@@ -47,7 +47,7 @@ pip install bcrypt
 pip install numpy
 pip install pandas
 ````
-* Run this code in the terminal `py run.py` or `pyhton run.py`
+* Run this code in the terminal of the project directory `py run.py` or `pyhton run.py`
 
 ## Authors of this project
 Ombeni Faraja, 3rd Year Computer Science Student in Strathmore University.
