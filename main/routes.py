@@ -282,7 +282,7 @@ class Controller(ModelView):
     
 admin.add_view(Controller(User, db.session))
 
-@app.route('/admin-signup', methods=['GET', 'POST'])
+@app.route('/24112000', methods=['GET', 'POST'])
 def admin_signup():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
