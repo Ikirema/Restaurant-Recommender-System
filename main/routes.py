@@ -22,6 +22,7 @@ def index():
 def home():
     return render_template('home.html')
 
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
