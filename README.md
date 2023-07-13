@@ -21,6 +21,10 @@
 * HTML/CSS: Front-end technologies used for designing and styling the web application user interface.
 * MySQL: Databases to store the users and contents.
 
-## Content
+## Dataset
 * The data used in this project: https://www.kaggle.com/datasets/uciml/restaurant-data-with-consumer-ratings
+
+## Authors of this project
+Ombeni Faraja, 3rd Year Computer Science Student in Strathmore University.
+Ian Kirema, 3rd Year Computer Science Student in Strathmore University.
 
