@@ -24,6 +24,31 @@
 ## Dataset
 * The data used in this project: https://www.kaggle.com/datasets/uciml/restaurant-data-with-consumer-ratings
 
+## How to run this project
+* Clone the repository
+* Install the following libraries in the project directory
+```
+pip install flask
+pip install mysql-connector
+pip install mysql-connector-python
+pip install mysql-connector-python-rf
+pip install pymysql
+pip install cryptography
+pip install Flask-WTF
+pip install Flask-Login
+pip install WTForms
+pip install Flask-Login
+pip install Flask-SQLAlchemy
+pip install Flask-WTF
+pip install itsdangerous==1.1.0
+pip install Pillow
+pip install Flask-Mail
+pip install bcrypt
+pip install numpy
+pip install pandas
+````
+* Run this code in the terminal `py run.py` or `pyhton run.py`
+
 ## Authors of this project
 Ombeni Faraja, 3rd Year Computer Science Student in Strathmore University.
 Ian Kirema, 3rd Year Computer Science Student in Strathmore University.
