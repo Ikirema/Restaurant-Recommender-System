@@ -1,4 +1,9 @@
 # Restaurant-Recommender-System
+
+## Authors of this project
+Ombeni Faraja, 3rd Year Computer Science Student in Strathmore University. <br>
+Ian Kirema, 3rd Year Computer Science Student in Strathmore University.
+
 ## Introduction
 This is a semester project built by Ombeni Faraja and Ian Kirema during their third year in Strathmore University in July, 2023.
 
@@ -7,7 +12,7 @@ This is a semester project built by Ombeni Faraja and Ian Kirema during their th
 * This Notebook contains is using a combination of Collaborative Filtering and Content-based Filtering.
 
 ## Algorithm
-* The restaurant recommender system utilizes collaborative filtering, a popular algorithm for generating recommendations based on user behavior and preferences. It analyzes the ratings given by multiple users to identify similarities and recommend restaurants based on those similarities.
+* The restaurant recommender system utilizes content based filtering, a popular algorithm for generating recommendations based on user input and preferences. It analyzes the input given by the user to identify similarities and recommend restaurants based on those inputs.
 
 * The algorithm follows these steps:
 * Preprocess the data by cleaning, normalizing, and transforming it as required.
@@ -16,42 +21,13 @@ This is a semester project built by Ombeni Faraja and Ian Kirema during their th
 * Generate recommendations based on the preferences and ratings of similar users or restaurants.
 * Present the recommendations to the user.
 
-## Technology Stack
-* Python: The programming language used for implementing the sentiment analysis algorithms and data processing tasks.
-* Machine Learning Libraries: This project uses the following libraries: numpy, pandas, seaborn, matplotlib.
-* Flask: A Python web framework used for building the web application to showcase the sentiment analysis results.
-* HTML/CSS: Front-end technologies used for designing and styling the web application user interface.
-* MySQL: Databases to store the users and contents.
-
 ## Dataset
-* The data used in this project: https://www.kaggle.com/datasets/uciml/restaurant-data-with-consumer-ratings
+* The data used in this project: https://www.kaggle.com/datasets/ombenifaraja/restaurant-recommender-system-dataset
 
 ## How to run this project
 * Clone the repository
-* Install the following libraries in the project directory
+* Run the code below to install the required dependancies
 ```
-pip install flask
-pip install mysql-connector
-pip install mysql-connector-python
-pip install mysql-connector-python-rf
-pip install pymysql
-pip install cryptography
-pip install Flask-WTF
-pip install Flask-Login
-pip install WTForms
-pip install Flask-Login
-pip install Flask-SQLAlchemy
-pip install Flask-WTF
-pip install itsdangerous==1.1.0
-pip install Pillow
-pip install Flask-Mail
-pip install bcrypt
-pip install numpy
-pip install pandas
+pip install -r requirements.txt
 ````
 * Run this code in the terminal of the project directory `py run.py` or `pyhton run.py`
-
-## Authors of this project
-Ombeni Faraja, 3rd Year Computer Science Student in Strathmore University. <br>
-Ian Kirema, 3rd Year Computer Science Student in Strathmore University.
-
