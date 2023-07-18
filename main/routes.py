@@ -4,16 +4,12 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, session
 from main import app, db, bcrypt, mail, admin
-from main.forms import RegistrationForm, LoginForm, RequestResetForm, ResetPasswordForm, VerifyEmailForm, UpdateAccountForm, PostForm, AdminForm
+from main.forms import (RegistrationForm, LoginForm, RequestResetForm, ResetPasswordForm, VerifyEmailForm,
+                         UpdateAccountForm, PostForm, AdminForm)
 from main.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
-import numpy as np
-import pandas as pd
-import csv
 from flask_admin.contrib.sqla import ModelView
-
-
 
 @app.route('/')
 def index():
@@ -23,7 +19,7 @@ def index():
 def home():
     return render_template('home.html')
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -31,14 +27,26 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            if user.confirmed:
+                login_user(user, remember=form.remember.data)
+                next_page = request.args.get('next')
+                return redirect(next_page) if next_page else redirect(url_for('home'))
+            else:
+                flash('Please confirm your email address to log in.', 'warning')
         else:
-            flash('Login Unsuccesful. Please check emaiil and password!', 'danger')
-    return render_template('login.html', title='Log In', form=form)
+            flash('Login Unsuccessful. Please check email or password.', 'danger')
+    return render_template('login.html', title='Login', form=form)
 
-@app.route('/register', methods=['POST', 'GET'])
+
+
+from itsdangerous import BadSignature, Serializer, TimedSerializer, URLSafeTimedSerializer
+from yaml import serialize_all 
+from flask_mail import Message, Mail
+mail = Mail(app)
+serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+
+@app.route("/registration", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -46,11 +54,39 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+
+        # Generate a confirmation token
+        token = serializer.dumps(user.email, salt='email-confirm')
+
+        # Send confirmation email
+        confirmation_link = url_for('confirm_email', token=token, _external=True)
+        message = Message('Confirm Your Email', recipients=[user.email], sender=app.config['MAIL_USERNAME'])
+        message.body = f'Please click the link to confirm your email: {confirmation_link}'
+        mail.send(message)
+
         db.session.add(user)
         db.session.commit()
-        flash('Account Created Succesfully.Login with your details', 'success')
+        flash('Your account has been created. Please check your email to confirm your account.', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Sign Up', form=form)
+    return render_template('register.html', title='Registration', form=form)
+
+@app.route('/confirm_email/<token>')
+def confirm_email(token):
+    try:
+        email = serializer.loads(token, salt='email-confirm', max_age=1800)  # 30 minutes expiration
+
+        user = User.query.filter_by(email=email).first()
+        if user:
+            user.confirmed = True
+            db.session.commit()
+            flash('Email confirmed. You can now log in.', 'success')
+        else:
+            flash('User not found.', 'danger')
+
+    except BadSignature:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+
+    return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
@@ -190,87 +226,6 @@ def view_post():
     posts = Post.query.order_by(Post.date_posted.desc()).all()
     return render_template('view_post.html', title='View Posts', posts=posts)
 
-# Load the data
-df = pd.read_csv('ratings.csv')
-
-# Popularity-based recommendation
-def popularity_based_rec(df, group_col, rating_col):
-    grouped = df.groupby(group_col).agg({rating_col: [np.size, np.sum, np.mean]})
-    popular = grouped.sort_values((rating_col, 'mean'), ascending=False)
-    total_sum = grouped[rating_col]['sum'].sum()
-    popular['percentage'] = popular[rating_col]['sum'].div(total_sum) * 100
-    return popular.sort_values(('percentage'), ascending=False)
-
-
-# Nearest neighbor recommendation
-def compute_distance(a, b):
-    common_ratings = [rating for rating in a['ratings'] if rating in b['ratings']]
-    if len(common_ratings) == 0 or len(a['ratings']) != len(b['ratings']):
-        return float('inf')
-    sum_squared_differences = sum([(a['ratings'][i] - b['ratings'][i]) ** 2 for i in range(len(common_ratings))])
-    return sum_squared_differences ** 0.5
-
-def get_neighbors(itemID, K):
-    target_item = itemDict[itemID]
-    distances = [(compute_distance(target_item, itemDict[itemID]), itemID) for itemID in itemDict if itemDict[itemID]['name'] != target_item['name']]
-    distances.sort()
-    return distances[:K]
-
-# User-based recommendation
-item_ratings = df.pivot_table(index='userID', columns='name', values='rating')
-
-
-@app.route('/popularity')
-@login_required
-def popularity():
-    popularity_stats = popularity_based_rec(df, 'name', 'rating').head()
-    popular_items = popularity_stats
-    return render_template('popularity.html', items=popular_items)
-
-@app.route('/nearest/<int:itemID>')
-@login_required
-def nearest(itemID):
-    neighbors = get_neighbors(itemID, 5)
-    nearest_items = [itemDict[itemID]['name'] for _, itemID in neighbors]
-    return render_template('nearest.html', items=nearest_items)
-
-@app.route('/user/<string:username>')
-@login_required
-def user(username):
-    user_ratings = item_ratings.loc[username].dropna()
-    similar_users = item_ratings.corrwith(user_ratings).sort_values(ascending=False).dropna().head(5)
-    similar_users = similar_users.index.tolist()
-    return render_template('user.html', username=username, similar_users=similar_users)
-
-if __name__ == '__main__':
-    # Store all restaurants in a dictionary
-    itemDict = {}
-    with open('ratings.csv', mode='r') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        next(csv_reader)
-        for row in csv_reader:
-            if row[1] == '' or row[2] == '' or row[3] == '' or row[4] == '':
-                continue
-            itemID = int(row[1])
-            name = row[2]
-            userID = int(row[3])
-            rating = int(row[4])
-            if itemID not in itemDict:
-                itemDict[itemID] = {'name': name, 'ratings': [], 'numRatings': 0, 'totalRating': 0}
-            itemDict[itemID]['ratings'].append(rating)
-            itemDict[itemID]['numRatings'] += 1
-            itemDict[itemID]['totalRating'] += rating
-    for itemID in itemDict:
-        item = itemDict[itemID]
-        name = item['name']
-        ratings = item['ratings']
-        numRatings = item['numRatings']
-        totalRating = item['totalRating']
-        avgRating = totalRating / numRatings
-        itemDict[itemID] = {'name': name, 'ratings': ratings, 'numRatings': numRatings, 'avgRating': avgRating}
-
-
-
 class Controller(ModelView):
     def is_accessible(self):
         if current_user.is_admin == True:
@@ -295,3 +250,58 @@ def admin_signup():
         flash('Account Created Succesfully. Login with your details!', 'success')
         return redirect(url_for('login'))
     return render_template('admin-signup.html', title='Sign Up', form=form)
+
+
+
+
+
+
+
+
+
+
+
+#RECOMMENDER SYSTEMS IMPLEMENTATION
+import pickle
+from main.search import search
+from main.contentB import contentB_recommend
+with open('search.pkl', 'rb') as file:
+    search = pickle.load(file)
+with open('contentB.pkl', 'rb') as file:
+    contentB_rec = pickle.load(file)
+
+
+@app.route('/content')
+@login_required
+def content_based_rec():
+    return render_template('content-based.html')
+
+@app.route('/hybrid')
+@login_required
+def hybrid_rec():
+    return render_template('hybrid.html')
+
+
+#SEARCH ENGINE
+@app.route('/search', methods=['GET', 'POST'])
+@login_required
+def search_route():
+    if request.method == 'POST':
+        search_query = request.form['name']
+        results = search(search_query)  # Call your search function here
+        return render_template('search_results.html', results=results)
+    return render_template('search.html')
+
+
+#CONTENT BASED RECOMMENDATION
+@app.route('/recommend', methods=['GET', 'POST'])
+@login_required
+def recommend():
+    if request.method == 'POST':
+        description = request.form['description']
+        results = contentB_rec(description)  # Call your content-based recommendation function here
+        return render_template('recommendation_results.html', results=results)
+    return render_template('recommendation.html')
+
+
+

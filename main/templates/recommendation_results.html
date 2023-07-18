@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    <table class="table table-striped" style="margin-top: 30px;">
+        <tr>
+            <th>Name</th>
+            <th>Rating</th>
+            <th>Price</th>
+            <th>Services</th>
+            <th>Location</th>
+            <th>Cuisine</th>
+            <th>Comments</th>
+            <th>Review</th>
+        </tr>
+        {% for result in results.iterrows() %}
+        <tr>
+           <td>{{ result[1]['name'] }}</td>
+           <td>{{ result[1]['rating'] }}</td>
+           <td>{{ result[1]['price'] }}</td>
+           <td>{{ result[1]['transactions'] }}</td>
+           <td>{{ result[1]['location'] }}</td>
+           <td>{{ result[1]['cuisine'] }}</td>
+           <td>{{ result[1]['comments'] }}</td>
+           <td> <a href="{{ url_for('new_post') }}" class="btn">Review</a><br></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

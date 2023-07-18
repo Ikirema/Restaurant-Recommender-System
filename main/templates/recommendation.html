@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero">
+
+    <div class="swiper hero-slider">
+ 
+       <div class="swiper-wrapper">
+ 
+          <div class="swiper-slide slide">
+             <div class="content">
+                <h3>Restaurant Recommendations</h3>
+                <form method="POST" action="/search">
+                    <input placeholder="Describe Your Restaurant" type="text" name="description" id="description" class="input-text""><br>
+                    <button type="submit" class="btn">SEARCH</button>
+                </form>
+             </div>
+             <div class="image">
+                <img src="static/profile_pics/delicacies/rice stew.jpg" alt="">
+             </div>
+          </div>
+ </section>
+
+ <section class="category">
+    <h1 class="title">Go To</h1>
+    <div class="box-container">
+        <a href="{{url_for('search_route')}}" class="box">
+           <img src="static/profile_pics/images/cat-1.png" alt="">
+           <h3>Home</h3>
+        </a>
+  
+        <a href="{{url_for('search_route')}}" class="box">
+           <img src="static/profile_pics/images/cat-2.png" alt="">
+           <h3>Search Restaurants</h3>
+        </a>
+     </div>
+</section>
+
+
+
+
+<footer class="footer">
+
+    <h1 class="title">Contact Us</h1>
+  
+  <section class="grid">
+  
+    <div class="box">
+       <img src="static/profile_pics/images/email-icon.png" alt="">
+       <h3>Email</h3>
+       <a href="iankirema@gmail.com">iankirema@gmail.com</a>
+       <a href="ombenifaraja@gmail.com">ombenifaraja@gmail.com</a>
+    </div>
+  
+    <div class="box">
+       <img src="static/profile_pics/images/clock-icon.png" alt="">
+       <h3>Working hours</h3>
+       <p> 24hrs Services </p>
+    </div>
+  
+    <div class="box">
+       <img src="static/profile_pics/images/map-icon.png" alt="">
+       <h3>Address</h3>
+       <a href="#">Nairobi, Kenya</a>
+    </div>
+  
+  </section>
+  
+  <div class="credit">&copy; copyright @ <?= date('Y'); ?> by <span>Mr. Ian Kirema and Sir Ombeni Faraja</span> | all rights reserved!</div>
+  
+  </footer>
+{% endblock %}
+

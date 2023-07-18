@@ -86,3 +86,7 @@ class PostForm(FlaskForm):
     title = StringField('Restaurant Name', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
+
+#class SearchForm(FlaskForm):
+#    name = StringField(validators=[DataRequired()], render_kw={"placeholder":"Enter the Restaurant Name"})
+#    submit = SubmitField('SEARCH')
