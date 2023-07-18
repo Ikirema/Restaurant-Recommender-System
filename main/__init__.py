@@ -6,6 +6,7 @@ from flask_mail import Mail
 from flask_admin import Admin
 
 
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hello'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'

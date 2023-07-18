@@ -99,11 +99,19 @@ section{
    transition: .2s linear;
 }
 
+#input-text{
+   width: 100%;
+   height: auto;
+   resize: vertical;
+   background-color: rgb(244, 233, 233); 
+   border: solid 1px rgb(223, 205, 205);
+}
+
 .input-text {
    height: 50px; 
    width: 50rem; 
    background-color: rgb(244, 233, 233); 
-   border: solid 1px rgb(216, 199, 199);
+   border: solid 1px rgb(223, 205, 205);
 }
 
 .btn{
