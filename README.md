@@ -16,38 +16,14 @@ This is a semester project built by Ombeni Faraja and Ian Kirema during their th
 * Generate recommendations based on the preferences and ratings of similar users or restaurants.
 * Present the recommendations to the user.
 
-## Technology Stack
-* Python: The programming language used for implementing the sentiment analysis algorithms and data processing tasks.
-* Machine Learning Libraries: This project uses the following libraries: numpy, pandas, seaborn, matplotlib.
-* Flask: A Python web framework used for building the web application to showcase the sentiment analysis results.
-* HTML/CSS: Front-end technologies used for designing and styling the web application user interface.
-* MySQL: Databases to store the users and contents.
-
 ## Dataset
 * The data used in this project: https://www.kaggle.com/datasets/uciml/restaurant-data-with-consumer-ratings
 
 ## How to run this project
 * Clone the repository
-* Install the following libraries in the project directory
+* Run the code below to install the required dependancies
 ```
-pip install flask
-pip install mysql-connector
-pip install mysql-connector-python
-pip install mysql-connector-python-rf
-pip install pymysql
-pip install cryptography
-pip install Flask-WTF
-pip install Flask-Login
-pip install WTForms
-pip install Flask-Login
-pip install Flask-SQLAlchemy
-pip install Flask-WTF
-pip install itsdangerous==1.1.0
-pip install Pillow
-pip install Flask-Mail
-pip install bcrypt
-pip install numpy
-pip install pandas
+pip install -r requirements.txt
 ````
 * Run this code in the terminal of the project directory `py run.py` or `pyhton run.py`
 
